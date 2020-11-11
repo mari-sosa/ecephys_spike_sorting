@@ -23,11 +23,11 @@ from create_input_json import createInputJson
 # -----------
 # Name for log file for this pipeline run. Log file will be saved in the
 # output destination directory catGT_dest
-logName = 'SC024_log.csv'
+logName = '20201002_MS2_log.csv'
 
 # Raw data directory = npx_directory
 # run_specs = name, gate, trigger and probes to process
-npx_directory = r'E:\NP2.0data\SC024_092319\NP1.0'
+npx_directory = r'/opt/handeldata/spikeglx/20201002_MS2_Day4_Bank2_g0/20201002_MS2_Day4_Bank2_g0_imec0'
 
 # Each run_spec is a list of 4 strings:
 #   undecorated run name (no g/t specifier, the run field in CatGT)
@@ -38,7 +38,7 @@ npx_directory = r'E:\NP2.0data\SC024_092319\NP1.0'
 #   probes to process, as a string, e.g. '0', '0,3', '0:3'
 
 run_specs = [										
-						['SC024_092319_NP1.0_Midbrain', '0', '0,199', '0']
+						['20201002_MS2_Day4_Bank2', '0', '0,10', '0']
 ]
 
 # ------------------
@@ -47,7 +47,7 @@ run_specs = [
 # Set to an existing directory; all output will be written here.
 # Output will be in the standard SpikeGLX directory structure:
 # run_folder/probe_folder/*.bin
-catGT_dest = r'C:\sampleRate_test\SC024'
+catGT_dest = r'/opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2/'
 
 # ------------
 # CatGT params
@@ -55,13 +55,57 @@ catGT_dest = r'C:\sampleRate_test\SC024'
 run_CatGT = True   # set to False to sort/process previously processed data.
 # catGT streams to process, e.g. just '-ap' for ap band only, '-ap -ni' for
 # ap plus ni aux inputs
-catGT_stream_string = '-ap -ni'
+catGT_stream_string = '-ap -ni -lf'
 
 # CatGT command string includes all instructions for catGT operations
 # Note 1: directory naming in this script requires -prb_fld and -out_prb_fld
 # Note 2: this command line includes specification of edge extraction
 # see CatGT readme for details
-catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -gbldmx -gfix=0,0.10,0.02 -SY=0,384,6,500 -SY=1,384,6,500 -XA=0,1,3,500 -XA=1,3,3,0 -XD=4,1,50 -XD=4,2,1.7 -XD=4,3,5'
+catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass=400 '\
+        '-gbldmx -gfix=0.3,0.10,0.02 '\
+        '-SY=0,384,6,500 '\
+        '-XA=0,1,3,500 '\
+        '-XA=1,1,1.5,10 '\
+        '-XD=0,0,100 '\ 
+        '-XD=0,1,100 '\
+        '-XD=0,2,100 '\
+        '-XD=0,3,100 '\
+        '-XD=0,4,10 '\
+        '-XD=0,5,10 '\
+        '-XD=0,6,10 '\
+        '-XD=0,7,10 '\
+        '-XD=0,8,10 '\
+        '-XD=0,9,10 '\
+        '-XD=0,10,10 '\
+        '-XD=0,11,10 '\
+        '-XD=0,12,100 '\
+        '-XD=0,13,100 '\
+        '-XD=0,14,100 '\
+        '-XD=0,15,100'
+
+
+# M.S. ni aux inputs ----------
+# gfix=0.3,0.10,0.02 -- artifact removal. |amp(mV)|,|slope(mV/sample)|,noise 
+# XA=0,1,3,500 -- sync channel on nidaq: word 0, thresh 1 V(?), must stay above 3V, dur 500 ms
+# XA=1,1,1.5,10 -- camera: word 1, thresh 1 V(?), must stay above 1.5V, dur 10  ms
+# XD=0,0,100 -- Well 0 LED: word 0, bit 0, dur 100  ms
+# XD=0,1,100 -- Well 1 LED: word 0, bit 1, dur 100  ms
+# XD=0,2,100 -- Well 2 LED: word 0, bit 2, dur 100  ms
+# XD=0,3,100 -- Well 3 LED: word 0, bit 3, dur 100  ms
+# XD=0,4,10 -- Well 0 IR detect: word 0, bit 4, dur 10  ms
+# XD=0,5,10 -- Well 1 IR detect: word 0, bit 5, dur 10  ms
+# XD=0,6,10 -- Well 2 IR detect: word 0, bit 6, dur 10  ms
+# XD=0,7,10 -- Well 3 IR detect: word 0, bit 7, dur 10  ms
+# XD=0,8,10 -- Well 0 IR beam break: word 0, bit 8, dur 10  ms
+# XD=0,9,10 -- Well 1  IR beam break: word 0, bit 9, dur 10  ms
+# XD=0,10,10 -- Well 2 IR beam break: word 0, bit 10, dur 10  ms
+# XD=0,11,10 -- Well 3 IR beam break: word 0, bit 11, dur 10  ms
+# XD=0,12,100 -- Well 0 pump: word 0, bit 12, dur 100  ms
+# XD=0,13,100 -- Well 1 pump: word 0, bit 13, dur 100  ms
+# XD=0,14,100 -- Well 2 pump: word 0, bit 14, dur 100  ms
+# XD=0,15,100 -- Well 3 pump: word 0, bit 15, dur 100  ms
+
+# ------------------------------
 
 # ----------------------
 # psth_events parameters
@@ -69,7 +113,7 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -gbldmx -gfix=0,0.10,0.0
 # extract param string for psth events -- copy the CatGT params used to extract
 # events that should be exported with the phy output for PSTH plots
 # If not using, remove psth_events from the list of modules
-event_ex_param_str = 'XD=4,1,50'
+# event_ex_param_str = 'XD=4,1,50'
 
 # -----------------
 # TPrime parameters
@@ -83,16 +127,16 @@ niStream_sync_params = 'XA=0,1,3,500'   # copy from the CatGT comman line, set t
 # Modules List
 # ---------------
 # List of modules to run per probe; CatGT and TPrime are called once for each run.
+# M.S. removed 'psth_events'
 modules = [
 			'kilosort_helper',
             'kilosort_postprocessing',
             'noise_templates',
-            'psth_events',
             'mean_waveforms',
             'quality_metrics'
 			]
 
-json_directory = r'D:\ecephys_fork\json_files'
+json_directory = r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
 
 # -----------------------
 # -----------------------

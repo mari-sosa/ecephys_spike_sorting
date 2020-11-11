@@ -19,16 +19,16 @@ def createInputJson(output_file,
                     npx_directory=None, 
                     continuous_file = None,
                     spikeGLX_data=True,
-                    extracted_data_directory=None,
+                    extracted_data_directory='/opt/handeldata/rig43/preprocessed', 
                     kilosort_output_directory=None,
                     ks_make_copy=False,
-                    probe_type='3A',
+                    probe_type='3A', # not sure if this should be 3A or NP1
                     catGT_run_name=None,
                     gate_string='0',
                     trigger_string='0,0',
                     probe_string='0',
                     catGT_stream_string = '-ap',
-                    catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -gbldmx -gfix=0.40,0.10,0.02',
+                    catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -gbldmx -gfix=0.40,0.10,0.02', #see spikeGLX_pipeline.py for correct catGT_cmd_string
                     catGT_gfix_edits = 0,
                     noise_template_use_rf = True,
                     event_ex_param_str = 'XD=4,1,50',
@@ -45,12 +45,12 @@ def createInputJson(output_file,
                     ):
 
     # hard coded paths to code on your computer and system
-    ecephys_directory = r'D:\ecephys_fork\ecephys_spike_sorting\ecephys_spike_sorting'
-    kilosort_repository = r'C:\Users\labadmin\Documents\jic\KS2_MP_082520\Kilosort2'
-    npy_matlab_repository = r'C:\Users\labadmin\Documents\jic\npy-matlab-master'
-    catGTPath = r'C:\Users\labadmin\Documents\jic\CatGT'
-    tPrime_path=r'C:\Users\labadmin\Documents\jic\TPrimeApp\TPrime'
-    cWaves_path=r'C:\Users\labadmin\Documents\jic\C_Waves'
+    ecephys_directory = r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting'
+    kilosort_repository = r'/home/rig43/local_repos/Kilosort2'
+    npy_matlab_repository = r'/home/rig43/local_repos/npy-matlab'
+    catGTPath = r'/home/rig43/CatGT'
+    tPrime_path=r'/home/rig43/TPrime'
+    # Waves_path=r'C:\Users\labadmin\Documents\jic\C_Waves'
     
     # set paths to KS2 master file to run; these should be appropriate for the
     # kilosort repository specified above
@@ -61,7 +61,7 @@ def createInputJson(output_file,
     # master_file_name = 'KS2ds_tracking_master_file.m' 
      
     # for config files and kilosort working space
-    kilosort_output_tmp = r'D:\kilosort_datatemp' 
+    kilosort_output_tmp = r'/opt/handeldata/kilosort_datatemp' 
     
     
     # derived directory names
