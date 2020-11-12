@@ -22,7 +22,7 @@ def createInputJson(output_file,
                     extracted_data_directory=None, 
                     kilosort_output_directory=None,
                     ks_make_copy=False,
-                    probe_type='3A', # not sure if this should be 3A or NP1
+                    probe_type='3B1',
                     catGT_run_name=None,
                     gate_string='0',
                     trigger_string='0,0',
