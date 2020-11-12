@@ -19,7 +19,7 @@ def createInputJson(output_file,
                     npx_directory=None, 
                     continuous_file = None,
                     spikeGLX_data=True,
-                    extracted_data_directory='/opt/handeldata/rig43/preprocessed', 
+                    extracted_data_directory=None, 
                     kilosort_output_directory=None,
                     ks_make_copy=False,
                     probe_type='3A', # not sure if this should be 3A or NP1
