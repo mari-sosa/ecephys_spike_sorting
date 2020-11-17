@@ -136,7 +136,7 @@ modules = [
             'quality_metrics'
 			]
 
-json_directory = r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
+json_directory = r'/opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2' #r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
 
 # -----------------------
 # -----------------------
