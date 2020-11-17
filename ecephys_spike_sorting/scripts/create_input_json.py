@@ -273,7 +273,7 @@ def createInputJson(output_file,
             "spikes_per_epoch" : 1000,
             "spread_threshold" : 0.12,
             "site_range" : 16,    
-            "cWaves_path" : cWaves_path,
+            #"cWaves_path" : cWaves_path,
             "use_C_Waves" : True,
             "snr_radius" : 8
         },
