@@ -38,7 +38,8 @@ def run_CatGT(args):
     print('CatGT command line:' + catGT_cmd)
     
     start = time.time()
-    subprocess.call(catGT_cmd)
+    split_cmd = catGT_cmd.split(" ")
+    subprocess.call(split_cmd)
 
     execution_time = time.time() - start
 
