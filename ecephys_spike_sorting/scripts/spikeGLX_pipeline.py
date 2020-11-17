@@ -66,7 +66,7 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
         '-SY=0,384,6,500 '\
         '-XA=0,1,3,500 '\
         '-XA=1,1,1.5,10 '\
-        '-XD=0,0,100 '\ 
+        '-XD=0,0,100 '\
         '-XD=0,1,100 '\
         '-XD=0,2,100 '\
         '-XD=0,3,100 '\
