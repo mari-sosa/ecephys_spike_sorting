@@ -20,7 +20,7 @@ def run_CatGT(args):
     
     cmd_parts = list()
     
-    cmd_parts.append(catGTexe_fullpath)
+    cmd_parts.append(f"wine {catGTexe_fullpath}")
     cmd_parts.append('-dir=' + args['directories']['npx_directory'])
     cmd_parts.append('-run=' + args['catGT_helper_params']['run_name'])
     cmd_parts.append('-g=' + args['catGT_helper_params']['gate_string'])
