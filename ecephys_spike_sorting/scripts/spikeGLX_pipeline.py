@@ -27,7 +27,8 @@ logName = '20201002_MS2_log.csv'
 
 # Raw data directory = npx_directory
 # run_specs = name, gate, trigger and probes to process
-npx_directory = r'/opt/handeldata/spikeglx/20201002_MS2_Day4_Bank2_g0/20201002_MS2_Day4_Bank2_g0_imec0'
+npx_directory = r'/opt/handeldata/spikeglx/' #this should be the parent directory for spikeglx, 
+# not the specific recording # 20201002_MS2_Day4_Bank2_g0/20201002_MS2_Day4_Bank2_g0_imec0'
 
 # Each run_spec is a list of 4 strings:
 #   undecorated run name (no g/t specifier, the run field in CatGT)
@@ -37,8 +38,9 @@ npx_directory = r'/opt/handeldata/spikeglx/20201002_MS2_Day4_Bank2_g0/20201002_M
 #           will concatenate all trials in the probe folder
 #   probes to process, as a string, e.g. '0', '0,3', '0:3'
 
+# run_specs should be the undecorated recording name, until the gate id i.e '_g0'
 run_specs = [										
-						['20201002_MS2_Day4_Bank2', '0', '0,10', '0']
+						['20201002_MS2_Day4_Bank2', '0', '0,0', '0']
 ]
 
 # ------------------
@@ -47,7 +49,7 @@ run_specs = [
 # Set to an existing directory; all output will be written here.
 # Output will be in the standard SpikeGLX directory structure:
 # run_folder/probe_folder/*.bin
-catGT_dest = r'/opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2/'
+catGT_dest = r'/opt/handeldata/rig43/preprocessed/' + run_specs[0][0] #20201002_MS2_Day4_Bank2/'
 
 # ------------
 # CatGT params
@@ -212,6 +214,7 @@ for spec in run_specs:
         subprocess.check_call(command.split(' '))           
 
         # parse the CatGT log and write results to command line
+        print(f"probe_list {prb_list}")
         logPath = os.getcwd()
         gfix_edits = SpikeGLX_utils.ParseCatGTLog( logPath, spec[0], spec[1], prb_list )
     
