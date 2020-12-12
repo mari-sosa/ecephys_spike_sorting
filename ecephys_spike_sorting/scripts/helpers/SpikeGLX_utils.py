@@ -158,7 +158,7 @@ def ParseCatGTLog(logPath, run_name, gate_string, prb_list):
     pfound = list()             # list of strings of probes found
     nfound = 0
     log_fullpath = logPath.replace('\\', '/') + "/CatGT.log"
-
+    
     with open(log_fullpath, 'r') as reader:
         line = reader.readline()
         while line != '' and nfound < num_probe:  # The EOF char is an empty string

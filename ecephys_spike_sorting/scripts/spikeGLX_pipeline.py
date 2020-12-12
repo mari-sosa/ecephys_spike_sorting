@@ -67,33 +67,33 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
         '-gbldmx -gfix=0.3,0.10,0.02 '\
         '-SY=0,384,6,500 '\
         '-XA=0,1,3,500 '\
-        '-XA=1,1,1.5,10 '\
-        '-XD=0,0,100 '\
-        '-XD=0,1,100 '\
-        '-XD=0,2,100 '\
-        '-XD=0,3,100 '\
-        '-XD=0,4,10 '\
-        '-XD=0,5,10 '\
-        '-XD=0,6,10 '\
-        '-XD=0,7,10 '\
-        '-XD=0,8,10 '\
-        '-XD=0,9,10 '\
-        '-XD=0,10,10 '\
-        '-XD=0,11,10 '\
-        '-XD=0,12,100 '\
-        '-XD=0,13,100 '\
-        '-XD=0,14,100 '\
-        '-XD=0,15,100'
+        '-XA=1,1.9,2.3,10 '\
+        '-XD=0,0,10 '\
+        '-XD=0,1,10 '\
+        '-XD=0,2,10 '\
+        '-XD=0,3,10 '\
+        '-XD=0,4,0 '\
+        '-XD=0,5,0 '\
+        '-XD=0,6,0 '\
+        '-XD=0,7,0 '\
+        '-XD=0,8,0 '\
+        '-XD=0,9,0 '\
+        '-XD=0,10,0 '\
+        '-XD=0,11,0 '\
+        '-XD=0,12,0 '\
+        '-XD=0,13,0 '\
+        '-XD=0,14,0 '\
+        '-XD=0,15,0'
 
 
 # M.S. ni aux inputs ----------
 # gfix=0.3,0.10,0.02 -- artifact removal. |amp(mV)|,|slope(mV/sample)|,noise 
 # XA=0,1,3,500 -- sync channel on nidaq: word 0, thresh 1 V(?), must stay above 3V, dur 500 ms
 # XA=1,1,1.5,10 -- camera: word 1, thresh 1 V(?), must stay above 1.5V, dur 10  ms
-# XD=0,0,100 -- Well 0 LED: word 0, bit 0, dur 100  ms
-# XD=0,1,100 -- Well 1 LED: word 0, bit 1, dur 100  ms
-# XD=0,2,100 -- Well 2 LED: word 0, bit 2, dur 100  ms
-# XD=0,3,100 -- Well 3 LED: word 0, bit 3, dur 100  ms
+# XD=0,0,10 -- Well 0 LED: word 0, bit 0, dur 100  ms
+# XD=0,1,10 -- Well 1 LED: word 0, bit 1, dur 100  ms
+# XD=0,2,10 -- Well 2 LED: word 0, bit 2, dur 100  ms
+# XD=0,3,10 -- Well 3 LED: word 0, bit 3, dur 100  ms
 # XD=0,4,10 -- Well 0 IR detect: word 0, bit 4, dur 10  ms
 # XD=0,5,10 -- Well 1 IR detect: word 0, bit 5, dur 10  ms
 # XD=0,6,10 -- Well 2 IR detect: word 0, bit 6, dur 10  ms
@@ -102,10 +102,10 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
 # XD=0,9,10 -- Well 1  IR beam break: word 0, bit 9, dur 10  ms
 # XD=0,10,10 -- Well 2 IR beam break: word 0, bit 10, dur 10  ms
 # XD=0,11,10 -- Well 3 IR beam break: word 0, bit 11, dur 10  ms
-# XD=0,12,100 -- Well 0 pump: word 0, bit 12, dur 100  ms
-# XD=0,13,100 -- Well 1 pump: word 0, bit 13, dur 100  ms
-# XD=0,14,100 -- Well 2 pump: word 0, bit 14, dur 100  ms
-# XD=0,15,100 -- Well 3 pump: word 0, bit 15, dur 100  ms
+# XD=0,12,10 -- Well 0 pump: word 0, bit 12, dur 100  ms
+# XD=0,13,10 -- Well 1 pump: word 0, bit 13, dur 100  ms
+# XD=0,14,10 -- Well 2 pump: word 0, bit 14, dur 100  ms
+# XD=0,15,10 -- Well 3 pump: word 0, bit 15, dur 100  ms
 
 # ------------------------------
 
@@ -115,7 +115,7 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
 # extract param string for psth events -- copy the CatGT params used to extract
 # events that should be exported with the phy output for PSTH plots
 # If not using, remove psth_events from the list of modules
-# event_ex_param_str = 'XD=4,1,50'
+event_ex_param_str = 'XD=4,1,50'
 
 # -----------------
 # TPrime parameters
