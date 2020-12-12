@@ -1,0 +1,59 @@
+spikeGLX_pipeline.py 
+    catGT_dest didn't exist and this broke the csv writer (log_from_json.py)
+    . `$ mkdir -p /opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2`
+
+    cWaves_path is not defined (create_input_json.py)
+    1. commented out the line in the "json dict"
+
+    json destination did not exist and this broke the create_input_json.py
+    1. changed the json_directory variable in spikeGLX_pipeline.py to match catGT_dest
+    
+    path to CatGT was "home/rig43/CatGT/CatGT" but for wine we needed to append .exe
+    1. appended .exe to CatGT, now reads "/home/rig43/CatGT/CatGT.exe" in modules/catTG_helper/__main__.py
+
+    we realized that wine needs to be called in the command
+    1. changed the append call to include wine
+
+    we were having an error with subprocess.call, because it was expecting a path. We 
+    wanted to have a list of args (e.g. wine <with arguments>).
+    1. we split the catGT_cmd string by spaces and delivered that to subprocess.call.
+
+    had an error in scripts/helpers/SpikeGLX_utils.ParseCatGTLog where it couldn't 
+    read the probe ID and gfix edits from CatGT.log;
+    this was because the path to the .nidq.meta file was being generated as a double-append
+    of ...go/...g0_imec0, so it couldn't read the meta data
+    1. changed npx_directory to the parent spikeglx dir: /opt/handeldata/spikeglx
+        rather than the specific recording dir; recording dir is specified by the run
+        name in the run_specs list
+    2. for less hard-coding, changed catGT_dest to concatenate /opt/handeldata/rig43/preprocessed/
+        and the run name
+    
+    to run the python matlab enginge, had to change permissions in matlabroot:
+        /usr/local/MATLAB/R2019a/extern/engines/python using chmod -R 777
+        in order to run setup.py in ecephys_spike_sorting virtual env to install
+        the Matlab engine in the virtual env
+
+    After running KS2, set use_C_Waves to False in create_input_json, 
+        since we don't have the C_waves application installed.
+        We calculte mean spike waveforms using python instead.
+
+    Had a "File name too long error when running TPrime." 
+    1. Fixed this by adding  `wine` to the subprocess call and splitting the TPrime 
+        commmand string by spaces just like for catGT_cmd.
+
+    To run only catGT and Tprime, and not kilosort or KS post-processing,
+        use spikeGLX_noKS_pipeline -- will use existing KS output, if you already
+        ran KS.
+
+    Remember after `pipenv shell`, pip install as modifiable using:
+        pip install -e .
+    
+    
+    To-Do: change the write path for CatGT.log to not be in scripts
+
+    
+
+
+    
+    
+

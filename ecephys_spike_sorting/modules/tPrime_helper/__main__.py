@@ -180,7 +180,7 @@ def call_TPrime(args):
         print(op)
 
     # Print out paths for help with debugging
-    tcmd = exe_path + ' -syncperiod=' + repr(sync_period) + \
+    tcmd = 'wine ' + exe_path + ' -syncperiod=' + repr(sync_period) + \
         ' -tostream=' + toStream_path
 
     for i, fp in enumerate(from_list):
@@ -195,7 +195,10 @@ def call_TPrime(args):
         batfile.write(tcmd)
 
     # make the TPrime call
-    subprocess.call(tcmd)
+    print('TPrime command line:' + tcmd)
+
+    split_cmd = tcmd.split(" ")
+    subprocess.call(split_cmd) #tcmd 
 
     # convert output files were text, convert to npy
     if not bNPY:

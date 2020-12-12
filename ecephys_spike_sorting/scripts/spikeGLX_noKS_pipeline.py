@@ -130,9 +130,7 @@ niStream_sync_params = 'XA=0,1,3,500'   # copy from the CatGT comman line, set t
 # ---------------
 # List of modules to run per probe; CatGT and TPrime are called once for each run.
 # M.S. removed 'psth_events'
-modules = [
-            'quality_metrics'
-			]
+modules = [ ]
 
 json_directory = r'/opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2' #r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
 
