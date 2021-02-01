@@ -48,8 +48,8 @@ def createInputJson(output_file,
     ecephys_directory = r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting'
     kilosort_repository = r'/home/rig43/local_repos/Kilosort2'
     npy_matlab_repository = r'/home/rig43/local_repos/npy-matlab'
-    catGTPath = r'/home/rig43/CatGT'
-    tPrime_path=r'/home/rig43/TPrime'
+    catGTPath = r'/home/rig43/CatGT-linux'
+    tPrime_path=r'/home/rig43/TPrime-linux'
     # Waves_path=r'C:\Users\labadmin\Documents\jic\C_Waves'
     
     # set paths to KS2 master file to run; these should be appropriate for the

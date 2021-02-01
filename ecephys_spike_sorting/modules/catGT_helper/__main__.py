@@ -15,12 +15,12 @@ def run_CatGT(args):
     print('ecephys spike sorting: CatGT helper module')
 
     catGTPath = args['catGT_helper_params']['catGTPath']
-    catGTexe_fullpath = catGTPath.replace('\\', '/') + "/CatGT.exe"
+    catGTexe_fullpath = catGTPath.replace('\\', '/') + "/runit.sh"
     # print('path to CatGT exe: ' + catGTexe_fullpath )
     
     cmd_parts = list()
     
-    cmd_parts.append(f"wine {catGTexe_fullpath}")
+    cmd_parts.append(f"{catGTexe_fullpath}")
     cmd_parts.append('-dir=' + args['directories']['npx_directory'])
     cmd_parts.append('-run=' + args['catGT_helper_params']['run_name'])
     cmd_parts.append('-g=' + args['catGT_helper_params']['gate_string'])

@@ -45,7 +45,7 @@ def call_TPrime(args):
     ni_sync_params = args['tPrime_helper_params']['ni_sync_params']
     catGTcmd = args['catGT_helper_params']['cmdStr']
 
-    exe_path = os.path.join(args['tPrime_helper_params']['tPrime_path'], 'TPrime.exe')
+    exe_path = os.path.join(args['tPrime_helper_params']['tPrime_path'], 'runit.sh')
     sync_period = args['tPrime_helper_params']['sync_period']
 
     catGTcmd_parts = catGTcmd.split('-')
@@ -180,7 +180,7 @@ def call_TPrime(args):
         print(op)
 
     # Print out paths for help with debugging
-    tcmd = 'wine ' + exe_path + ' -syncperiod=' + repr(sync_period) + \
+    tcmd = exe_path + ' -syncperiod=' + repr(sync_period) + \
         ' -tostream=' + toStream_path
 
     for i, fp in enumerate(from_list):
@@ -284,7 +284,7 @@ def call_TPrime_3A(args):
     for op in out_list:
         print(op)
 
-    exe_path = os.path.join(args['tPrime_helper_params']['tPrime_path'], 'TPrime.exe')
+    exe_path = os.path.join(args['tPrime_helper_params']['tPrime_path'], 'runit.sh')
     sync_period = args['tPrime_helper_params']['sync_period']
 
     tcmd = exe_path + ' -syncperiod=' + repr(sync_period) + \
