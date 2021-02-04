@@ -90,7 +90,7 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
 # gfix=0.3,0.10,0.02 -- artifact removal. |amp(mV)|,|slope(mV/sample)|,noise 
 # XA=0,1,3,500 -- sync channel on nidaq: word 0, thresh 1 V(?), must stay above 3V, dur 500 ms
 # XA=1,1,1.5,10 -- camera: word 1, thresh 1 V(?), must stay above 1.5V, dur 10  ms
-# XD=0,0,10 -- Well 0 LED: word 0, bit 0, dur 100  ms
+# XD=0,0,10 -- Well 0 LED: word 0, bit 0, dur 100  ms (for MS2 day4, these are IR beam break)
 # XD=0,1,10 -- Well 1 LED: word 0, bit 1, dur 100  ms
 # XD=0,2,10 -- Well 2 LED: word 0, bit 2, dur 100  ms
 # XD=0,3,10 -- Well 3 LED: word 0, bit 3, dur 100  ms
@@ -98,8 +98,8 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
 # XD=0,5,10 -- Well 1 IR detect: word 0, bit 5, dur 10  ms
 # XD=0,6,10 -- Well 2 IR detect: word 0, bit 6, dur 10  ms
 # XD=0,7,10 -- Well 3 IR detect: word 0, bit 7, dur 10  ms
-# XD=0,8,10 -- Well 0 IR beam break: word 0, bit 8, dur 10  ms
-# XD=0,9,10 -- Well 1  IR beam break: word 0, bit 9, dur 10  ms
+# XD=0,8,10 -- Well 0 IR beam break: word 0, bit 8, dur 10  ms (for MS2 day4, these are IR beam break)
+# XD=0,9,10 -- Well 1 IR beam break: word 0, bit 9, dur 10  ms
 # XD=0,10,10 -- Well 2 IR beam break: word 0, bit 10, dur 10  ms
 # XD=0,11,10 -- Well 3 IR beam break: word 0, bit 11, dur 10  ms
 # XD=0,12,10 -- Well 0 pump: word 0, bit 12, dur 100  ms

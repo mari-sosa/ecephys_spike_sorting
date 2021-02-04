@@ -48,7 +48,17 @@ spikeGLX_pipeline.py
     Remember after `pipenv shell`, pip install as modifiable using:
         pip install -e .
     
-    
+    For CatGT-linux and TPrime-linux installation:
+        1. in create_input_json.py edited paths to be ~/CatGT-linux and ~/TPrime-linux
+        2. in modules/catGT_helper/__main__.py and modules/tPrime_helper/__main__.py:
+            - removed wine and .exe from catGT_cmd and tPrime cmd
+            - replaced with runit.sh for each
+        3. Bill Karsh and Jennifer Colonell had to change CatGT and TPrime
+            runit.sh scripts to run correctly with bash - works out of box now
+
+    CatGT word definitions for XA and XD must be nonoverlapping, with XA coming before
+        XD. So XA0 and XA1 are no word 0 and 1, respectively, and XDs are on word 2.
+
     To-Do: change the write path for CatGT.log to not be in scripts
 
     
