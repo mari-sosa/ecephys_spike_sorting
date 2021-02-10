@@ -17,17 +17,17 @@ from create_input_json import createInputJson
 # User input -- Edit this section
 # -------------------------------
 # -------------------------------
-
+run_file_base = "20201226_C25R1_Day23_CenterRow180_TipRef_2"
 # -----------
 # Input data
 # -----------
 # Name for log file for this pipeline run. Log file will be saved in the
 # output destination directory catGT_dest
-logName = '20201002_MS2_log.csv'
+logName = f'{run_file_base}_log.csv'
 
 # Raw data directory = npx_directory
 # run_specs = name, gate, trigger and probes to process
-npx_directory = r'/opt/handeldata/spikeglx/' #this should be the parent directory for spikeglx, 
+npx_directory = r'/opt/handeldata/rig43/DATA/' #this should be the parent directory for spikeglx, 
 # not the specific recording # 20201002_MS2_Day4_Bank2_g0/20201002_MS2_Day4_Bank2_g0_imec0'
 
 # Each run_spec is a list of 4 strings:
@@ -40,7 +40,7 @@ npx_directory = r'/opt/handeldata/spikeglx/' #this should be the parent director
 
 # run_specs should be the undecorated recording name, until the gate id i.e '_g0'
 run_specs = [										
-						['20201002_MS2_Day4_Bank2', '0', '0,0', '0']
+						[run_file_base, '1', '0,0', '0']
 ]
 
 # ------------------
@@ -49,7 +49,7 @@ run_specs = [
 # Set to an existing directory; all output will be written here.
 # Output will be in the standard SpikeGLX directory structure:
 # run_folder/probe_folder/*.bin
-catGT_dest = r'/opt/handeldata/rig43/preprocessed/' + run_specs[0][0] #20201002_MS2_Day4_Bank2/'
+catGT_dest = os.path.join('/opt/handeldata/rig43/preprocessed/', run_file_base) #20201002_MS2_Day4_Bank2/'
 
 # ------------
 # CatGT params
@@ -67,7 +67,7 @@ catGT_cmd_string = '-prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass
         '-gbldmx -gfix=0.3,0.10,0.02 '\
         '-SY=0,384,6,500 '\
         '-XA=0,1,3,500 '\
-        '-XA=1,1.9,2.3,10 '\
+        '-XA=1,2.5,2.49,0 '\
         '-XD=2,0,0 '\
         '-XD=2,1,0 '\
         '-XD=2,2,0 '\
@@ -138,7 +138,7 @@ modules = [
             'quality_metrics'
 			]
 
-json_directory = r'/opt/handeldata/rig43/preprocessed/20201002_MS2_Day4_Bank2' #r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
+json_directory = os.path.join('/opt/handeldata/rig43/preprocessed', run_file_base) #20201002_MS2_Day4_Bank2' #r'/home/rig43/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/json_files'
 
 # -----------------------
 # -----------------------
