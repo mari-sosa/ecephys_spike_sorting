@@ -17,7 +17,7 @@ from create_input_json import createInputJson
 # User input -- Edit this section
 # -------------------------------
 # -------------------------------
-run_file_base = "20201226_C25R1_Day23_CenterRow180_TipRef_2"
+run_file_base = "20201224_C25R1_Day21_CenterRow180_TipRef"
 # -----------
 # Input data
 # -----------
@@ -40,7 +40,7 @@ npx_directory = r'/opt/handeldata/rig43/DATA/' #this should be the parent direct
 
 # run_specs should be the undecorated recording name, until the gate id i.e '_g0'
 run_specs = [										
-						[run_file_base, '1', '0,0', '0']
+						[run_file_base, '0', '0,0', '0']
 ]
 
 # ------------------
@@ -172,6 +172,7 @@ except OSError:
     pass
 
 # create the log file, write header
+print(logFullPath)
 log_from_json.writeHeader(logFullPath)
 
 for spec in run_specs:
