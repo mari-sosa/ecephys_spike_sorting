@@ -164,16 +164,23 @@ try:
 except OSError:
     pass
 
+print(json_directory)
+# check if json_directory exists; if not, create it
+if not os.path.exists(json_directory):
+    os.mkdir(json_directory)
+
 # delete any existing log with the current name
 logFullPath = os.path.join(catGT_dest, logName)
-try:
-    os.remove(logFullPath)
-except OSError:
-    pass
+if not os.path.isfile(logFullPath):
+    log_from_json.writeHeader(logFullPath)
+
+#try:
+#    os.remove(logFullPath)
+#except OSError:
+#    pass
 
 # create the log file, write header
-print(logFullPath)
-log_from_json.writeHeader(logFullPath)
+#log_from_json.writeHeader(logFullPath)
 
 for spec in run_specs:
 
@@ -195,9 +202,9 @@ for spec in run_specs:
     
     print('Creating json file for preprocessing')
     info = createInputJson(input_json, npx_directory=npx_directory, 
-	                                   continuous_file = None,
+	                               continuous_file = None,
                                        spikeGLX_data = 'True',
-									   kilosort_output_directory=catGT_dest,
+				       kilosort_output_directory=catGT_dest,
                                        catGT_run_name = session_id,
                                        gate_string = spec[1],
                                        trigger_string = trigger_str,
