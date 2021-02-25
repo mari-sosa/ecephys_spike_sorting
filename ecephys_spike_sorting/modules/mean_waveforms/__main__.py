@@ -1,7 +1,7 @@
 from argschema import ArgSchemaParser
 import os
+import sys
 import subprocess
-import logging
 import time
 
 import numpy as np
@@ -31,7 +31,15 @@ def calculate_mean_waveforms(args):
         clus_lbl_npy = os.path.join(args['directories']['kilosort_output_directory'], 'spike_clusters.npy' )
         dest, wavefile = os.path.split(args['mean_waveform_params']['mean_waveforms_file'])
         
-        exe_path = os.path.join(args['mean_waveform_params']['cWaves_path'], 'runit.bat')
+        
+        # path to the 'runit.bat' executable that calls C_Waves.
+        # Essential in linux where C_Waves executable is only callable through runit
+        if (sys.platform.startswith,'win'):
+            exe_path = os.path.join(args['mean_waveform_params']['cWaves_path'], 'runit.bat')
+        elif (sys.platform.startwith, 'linux'):
+            exe_path = os.path.join(args['mean_waveform_params']['cWaves_path'], 'runit.sh')
+        else:
+            print('unknown system, cannot run C_Waves')
         
         cwaves_cmd = exe_path + ' -spikeglx_bin=' + spikeglx_bin + \
                                 ' -clus_table_npy=' + clus_table_npy + \
@@ -69,8 +77,9 @@ def calculate_mean_waveforms(args):
         # load the channel map associated with this kilosort run; in kilosort_helper
         # a copy is made next to the data file
         input_file = args['ephys_params']['ap_band_file']
-        dat_dir, dat_name = os.path.split(input_file)
-        chanMapMat = os.path.join(dat_dir,'chanMap.mat')
+        dat_dir, dat_fname = os.path.split(input_file)
+        dat_name, dat_ext = os.path.splitext(dat_fname)
+        chanMapMat = os.path.join(dat_dir, (dat_name +'_chanMap.mat'))
         site_x = np.squeeze(loadmat(chanMapMat)['xcoords'])
         site_y = np.squeeze(loadmat(chanMapMat)['ycoords'])
         

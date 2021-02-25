@@ -1,6 +1,6 @@
 from argschema import ArgSchemaParser
 import os
-import logging
+import sys
 import subprocess
 import time
 import shutil
@@ -217,6 +217,7 @@ def call_TPrime(args):
     
     # tcmd = 'wine ' + exe_path + ' -syncperiod=' + repr(sync_period) + \
     
+        
     # Print out command for help with debugging
     tcmd = exe_path + ' -syncperiod=' + repr(sync_period) + \
         ' -tostream=' + toStream_path

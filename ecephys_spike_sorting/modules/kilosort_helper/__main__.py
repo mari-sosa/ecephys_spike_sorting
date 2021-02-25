@@ -21,7 +21,7 @@ def run_kilosort(args):
 
     print('ecephys spike sorting: kilosort helper module')
 
-    print('master branch -- single main KS2/KS25')
+    print('master branch -- single main KS2/KS25/KS3')
 
 
     commit_date, commit_time = get_repo_commit_date_and_hash(args['kilosort_helper_params']['kilosort_repository'])
@@ -74,8 +74,8 @@ def run_kilosort(args):
         
 #    shutil.copyfile(master_fullpath,
 #            os.path.join(args['kilosort_helper_params']['matlab_home_directory'],args['kilosort_helper_params']['master_file_name']))
-    shutil.copyfile(os.path.join(args['directories']['ecephys_directory'],'modules','kilosort_helper','main_KS2_KS25.m'),
-        os.path.join(args['kilosort_helper_params']['matlab_home_directory'],'main_KS2_KS25.m'))
+    shutil.copyfile(os.path.join(args['directories']['ecephys_directory'],'modules','kilosort_helper','main_kilosort_multiversion.m'),
+        os.path.join(args['kilosort_helper_params']['matlab_home_directory'],'main_kilosort_multiversion.m'))
     
     if args['kilosort_helper_params']['kilosort_version'] == 1:
     
@@ -122,7 +122,7 @@ def run_kilosort(args):
         eng.addpath(eng.genpath(KS_dir))
         eng.addpath(eng.genpath(NPY_dir))
         eng.addpath(home_dir)      
-        eng.main_KS2_KS25(args['kilosort_helper_params']['kilosort2_params']['KSver'], \
+        eng.main_kilosort_multiversion(args['kilosort_helper_params']['kilosort2_params']['KSver'], \
                           args['kilosort_helper_params']['kilosort2_params']['remDup'], \
                           args['kilosort_helper_params']['kilosort2_params']['finalSplits'], \
                           args['kilosort_helper_params']['kilosort2_params']['labelGood'], \
@@ -146,18 +146,23 @@ def run_kilosort(args):
         # trim quotes off string sent to matlab
         fproc_path = fproc_path_str[1:len(fproc_path_str)-1]
         fp_dir, fp_name = os.path.split(fproc_path)
-        shutil.copy(fproc_path, os.path.join(dat_dir, fp_name))
+        # make a new name for the processed file based on the original
+        # binary and metadata files
+        fp_save_name = metaName + '_ksproc.bin'
+        shutil.copy(fproc_path, os.path.join(dat_dir, fp_save_name))
         cm_path = os.path.join(output_dir, 'channel_map.npy')
         cm = np.load(cm_path)
         chan_phy_binary = cm.size
-        fix_phy_params(output_dir, dat_dir, fp_name, chan_phy_binary, args['ephys_params']['sample_rate'])
+        fix_phy_params(output_dir, dat_dir, fp_save_name, chan_phy_binary, args['ephys_params']['sample_rate'])
     else:
         chan_phy_binary = args['ephys_params']['num_channels']
         fix_phy_params(output_dir, dat_dir, dat_name, chan_phy_binary, args['ephys_params']['sample_rate'])                
 
     # make a copy of the channel map to the data directory
-    # see above: destFullPath specifiee destination for chanMap.mat
-    shutil.copy(destFullPath, os.path.join(dat_dir, 'chanMap.mat'))
+    # named according to the binary and meta file
+    # alredy have path to chanMap = destFullPath
+    cm_save_name = metaName + '_chanMap.mat'
+    shutil.copy(destFullPath, os.path.join(dat_dir, cm_save_name))
 
     if args['kilosort_helper_params']['ks_make_copy']:
         # get the kilsort output directory name

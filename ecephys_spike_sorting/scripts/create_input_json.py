@@ -60,7 +60,7 @@ def createInputJson(output_file,
                     ks_LTseed = 1,
                     ks_templateRadius_um = 163,
                     c_Waves_snr_um = 160,
-                    qm_isi_thresh = 1.5/1000
+                    qm_isi_thresh = 1.5/1000                    
                     ):
 
     # hard coded paths to code on your computer and system
@@ -73,7 +73,13 @@ def createInputJson(output_file,
     
     # location of kilosort respository and KS2 version
     kilosort_repository = r'/home/rig43/local_repos/Kilosort2'
-    KS2ver = '2.0'
+    KS2ver = '2.0'   # must equal '3.0', '2.5' or '2.0', and match the kiilosort_repository
+
+    # KS 3.0 does not yet output pcs.
+    if KS2ver == '3.0':
+        include_pcs = False  # set to false for KS2ver = '3.0'
+    else:
+        include_pcs = True
     
     # for config files and kilosort working space
     kilosort_output_tmp = r'/opt/handeldata/kilosort_datatemp' 
@@ -266,7 +272,8 @@ def createInputJson(output_file,
             "within_unit_overlap_window" : 0.000333,
             "between_unit_overlap_window" : 0.000333,
             "between_unit_dist_um" : 42,
-            "deletion_mode" : 'lowAmpCluster'
+            "deletion_mode" : 'lowAmpCluster',
+            "include_pcs" : include_pcs
         },
 
         "mean_waveform_params" : {
@@ -293,13 +300,14 @@ def createInputJson(output_file,
         "quality_metrics_params" : {
             "isi_threshold" : qm_isi_thresh,
             "min_isi" : 0.000166,
-            "num_channels_to_compare" : 13,
+            "max_radius_um" : 68,
             "max_spikes_for_unit" : 500,
             "max_spikes_for_nn" : 10000,
             "n_neighbors" : 4,
             'n_silhouette' : 10000,
             "drift_metrics_interval_s" : 51,
-            "drift_metrics_min_spikes_per_interval" : 10
+            "drift_metrics_min_spikes_per_interval" : 10,
+            "include_pcs" : include_pcs
         },
         
         "catGT_helper_params" : {

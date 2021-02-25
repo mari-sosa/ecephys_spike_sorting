@@ -1,6 +1,6 @@
 from argschema import ArgSchemaParser
 import os
-import logging
+import sys
 import subprocess
 import time
 import shutil
@@ -16,14 +16,14 @@ def run_CatGT(args):
 
     catGTPath = args['catGT_helper_params']['catGTPath']
     if (sys.platform.startswith,'win'):
-         # build windows command line
+        # build windows command line
         catGTexe_fullpath = catGTPath.replace('\\', '/') + "/runit.bat"
     elif (sys.platform.startwith, 'linux'):
         catGTexe_fullpath = catGTPath.replace('\\', '/') + "/runit.sh"
     else:
         print('unknown system, cannot run CatGt')
     
-    print('path to CatGT exe: ' + catGTexe_fullpath )
+   # print('path to CatGT exe: ' + catGTexe_fullpath )
     
     # common average referencing
     car_mode = args['catGT_helper_params']['car_mode']
