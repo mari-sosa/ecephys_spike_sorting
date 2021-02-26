@@ -59,9 +59,9 @@ def run_CatGT(args):
     print('CatGT command line:' + catGT_cmd)
     
     start = time.time()
-   # split_cmd = catGT_cmd.split(" ")
-   # subprocess.call(split_cmd)
-    subprocess.call(catGT_cmd)
+    split_cmd = catGT_cmd.split(" ") # split the cmd for subprocess call
+    subprocess.call(split_cmd)
+   # subprocess.call(catGT_cmd)
 
     execution_time = time.time() - start
     
@@ -70,8 +70,10 @@ def run_CatGT(args):
     logPath = os.getcwd()
     logName = 'CatGT.log'
    
-         
-    catgt_runName = 'catgt_' + args['catGT_helper_params']['run_name'] + '_g' + args['catGT_helper_params']['gate_string']
+    #use the first gate index for the catgt folder name; all concatenated indices under here
+    first_gate =  args['catGT_helper_params']['gate_string'][0]
+
+    catgt_runName = 'catgt_' + args['catGT_helper_params']['run_name'] + '_g' + first_gate # args['catGT_helper_params']['gate_string']
     
     # build name for log copy
     catgt_logName = catgt_runName
