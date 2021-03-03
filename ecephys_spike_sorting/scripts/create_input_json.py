@@ -69,7 +69,7 @@ def createInputJson(output_file,
     npy_matlab_repository = r'/home/rig43/local_repos/npy-matlab'
     catGTPath = r'/home/rig43/CatGT-linux'
     tPrime_path=r'/home/rig43/TPrime-linux'
-    # Waves_path=r'C:\Users\labadmin\Documents\jic\C_Waves'
+    cWaves_path=r'/home/rig43/C_Waves-linux'
     
     # location of kilosort respository and KS2 version
     kilosort_repository = r'/home/rig43/local_repos/Kilosort2'
@@ -263,7 +263,8 @@ def createInputJson(output_file,
                 "CSBseed" : ks_CSBseed,
                 "LTseed" : ks_LTseed,
                 "whiteningRange" : ks_whiteningRange,
-                "nNeighbors" : ks_nNeighbors
+                "nNeighbors" : ks_nNeighbors,
+                "showfigures" : 0
             }
         },
 
@@ -285,8 +286,8 @@ def createInputJson(output_file,
             "spikes_per_epoch" : 1000,
             "spread_threshold" : 0.12,
             "site_range" : 16,    
-            #"cWaves_path" : cWaves_path,
-            "use_C_Waves" : False,
+            "cWaves_path" : cWaves_path,
+            "use_C_Waves" : True,
             "snr_radius" : c_waves_radius_sites       
         },
             
