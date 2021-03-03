@@ -236,12 +236,12 @@ def call_TPrime(args):
         
     # make the TPrime call
     print('TPrime command line:' + tcmd)
-
-   # split_cmd = tcmd.split(" ")
-   # subprocess.call(split_cmd) #tcmd 
     
     # make the TPrime call
-    subprocess.call(tcmd)
+    split_cmd = tcmd.split(" ")
+    subprocess.call(split_cmd) #tcmd 
+    
+   # subprocess.call(tcmd)
     
     # convert output files were text, convert to npy
     if not bNPY:
