@@ -508,7 +508,7 @@ def catGT_ex_params_from_str(ex_str):
     # Remove spaces before parsing
     ex_str = ex_str.replace(' ','')
 
-    ex_type = ex_str[0:2]    # stream type
+    ex_type = ex_str.split('=')[0] #[0:2]    # stream type
 
     eq_pos = ex_str.find('=')
     ex_parts = ex_str[eq_pos+1:].split(',')
@@ -522,7 +522,7 @@ def catGT_ex_params_from_str(ex_str):
         # if the pulse length includes a decimal, reformat
         ex_parts[3] = ex_parts[3].replace('.', 'p')
         ex_name_str = ex_type + '_' + ex_parts[1] + '_' + ex_parts[2] + '_' + ex_parts[3]
-    elif ex_type == 'XD':
+    elif (ex_type == 'XD' or ex_type == 'iXD'):
         # name string = XD_<word>_<bit>_<pulse length>
         # if the pulse length includes a decimal, reformat
         ex_parts[2] = ex_parts[2].replace('.', 'p')
