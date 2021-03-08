@@ -1,4 +1,4 @@
-function main_KS2_KS25( KSver, remDup, finalSplits, labelGood, saveRez )
+function main_kilosort_multiversion( KSver, remDup, finalSplits, labelGood, saveRez )
 % paths will get set by the pipeline
 % config file created by pipeline and saved in directory with master
 % channel map created by pipeline, path specified in config

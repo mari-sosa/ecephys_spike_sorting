@@ -70,7 +70,7 @@ logName = f'{run_file_base}_log.csv'
 #           these strings must match a key in the param dictionaries above.
 
 run_specs = [										
-		[run_file_base, '2,3', '0,0', '0',['cortex'] ]
+		[run_file_base, '0,3', '0,0', '0',['cortex'] ]
             ]
 #run_specs = [									
 #	    	['SC024_092319_NP1.0_Midbrain', '0', '0,9', '0,1', ['cortex', 'medulla'] ]
@@ -228,6 +228,11 @@ try:
 except OSError:
     pass
 
+# check for existent of catGT dest, mkdir if doesn't exist
+if not os.path.isdir(catGT_dest):
+    os.mkdir(catGT_dest)
+
+
 # check for existence of log file, create if not there
 logFullPath = os.path.join(catGT_dest, logName)
 if not os.path.isfile(logFullPath):
@@ -257,7 +262,7 @@ for spec in run_specs:
     # get list of g-indices to concatenate from data directory
     first_gate = spec[1][0]
     g_range = '[' + spec[1][0] + '-' + spec[1][-1] + ']'
-    g_tocat = glob.glob(os.path.join(npx_directory,(run_file_base + '_g' + g_range)))
+    g_tocat = sorted(glob.glob(os.path.join(npx_directory,(run_file_base + '_g' + g_range))))
     glist = ''.join((x[-1]+'-') for x in g_tocat)[:-1] # g inds separated by dashes, minus the last dash
 
     print('Concatenating g indices ' + glist)
