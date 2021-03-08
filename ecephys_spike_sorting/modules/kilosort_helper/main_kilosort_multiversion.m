@@ -45,6 +45,7 @@ end
 % find the binary file
 rootZ       = ops.rootZ;
 ops.fbinary = fullfile(ops.datafile);
+ops.showfigures = 0; %showfigures;
 
 % print out ops
 ops
