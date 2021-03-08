@@ -2,11 +2,12 @@ import os
 import shutil
 import subprocess
 import numpy as np
+import glob
 
-from helpers import SpikeGLX_utils
-from helpers import log_from_json
-from helpers import run_one_probe
-from create_input_json import createInputJson
+from ecephys_spike_sorting.scripts.helpers import SpikeGLX_utils
+from ecephys_spike_sorting.scripts.helpers import log_from_json
+#from helpers import run_one_probe
+from ecephys_spike_sorting.scripts.create_input_json import createInputJson
 
 
 # script to run CatGT, KS2, postprocessing and TPrime on data collected using
@@ -35,7 +36,7 @@ npx_directory = r'/opt/handeldata/rig43/DATA/'
 refPerMS_dict = {'default': 2.0, 'cortex': 2.0}
 
 # threhold values appropriate for KS2, KS2.5
-ksTh_dict = {'default':'[10,4]', 'cortex':'[10,4]'}
+ksTh_dict = {'default':'[10,4]', 'cortex':'[9,4]'}
 # threshold values appropriate for KS3.0
 #ksTh_dict = {'default':'[9,9]', 'cortex':'[9,9]', 'medulla':'[9,9]', 'thalamus':'[9,9]'}
 
@@ -69,7 +70,7 @@ logName = f'{run_file_base}_log.csv'
 #           these strings must match a key in the param dictionaries above.
 
 run_specs = [										
-		[run_file_base, '0,3', '0,0', '0',['cortex'] ]
+		[run_file_base, '2,3', '0,0', '0',['cortex'] ]
             ]
 #run_specs = [									
 #	    	['SC024_092319_NP1.0_Midbrain', '0', '0,9', '0,1', ['cortex', 'medulla'] ]
@@ -97,7 +98,7 @@ loccar_max = 160
 # -t_miss_ok option required to concatenate over missing g or t indices
 # -zerofillmax=500 option required to fill gaps only up to 500ms of zeros,
 # so kilsort doesn't crash
-catGT_cmd_string = '-t_miss_ok -zerofillmax=500 -prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass=400 -gfix=0.3,0.10,0.02'
+catGT_cmd_string = '-t_miss_ok -zerofillmax=500 -prb_fld -out_prb_fld -aphipass=300 -aplopass=6000 -lflopass=400 -gfix=0,0.10,0.02'
 catGT_stream_string = '-ap -ni -lf'
 
 ni_present = True
@@ -135,14 +136,18 @@ ni_extract_string = '-XA=0,1,3,500 '\
         '-XD=2,1,0 '\
         '-XD=2,2,0 '\
         '-XD=2,3,0 '\
+        '-iXD=2,0,0 '\
+        '-iXD=2,1,0 '\
+        '-iXD=2,2,0 '\
+        '-iXD=2,3,0 '\
         '-XD=2,4,0 '\
         '-XD=2,5,0 '\
         '-XD=2,6,0 '\
         '-XD=2,7,0 '\
-        '-XD=2,8,0 '\
-        '-XD=2,9,0 '\
-        '-XD=2,10,0 '\
-        '-XD=2,11,0 '\
+        '-iXD=2,8,0 '\
+        '-iXD=2,9,0 '\
+        '-iXD=2,10,0 '\
+        '-iXD=2,11,0 '\
         '-XD=2,12,0 '\
         '-XD=2,13,0 '\
         '-XD=2,14,0 '\
@@ -160,7 +165,7 @@ ks_saveRez = 1
 ks_copy_fproc = 0
 ks_templateRadius_um = 163
 ks_whiteningRadius_um = 163
-ks_minfr_goodchannels = 0.1
+ks_minfr_goodchannels = 0.05 #0.1
 
 
 # ----------------------
@@ -249,6 +254,14 @@ for spec in run_specs:
     first_trig, last_trig = SpikeGLX_utils.ParseTrigStr(spec[2], prb_list[0], spec[1], prb0_fld)
     trigger_str = repr(first_trig) + ',' + repr(last_trig)
     
+    # get list of g-indices to concatenate from data directory
+    first_gate = spec[1][0]
+    g_range = '[' + spec[1][0] + '-' + spec[1][-1] + ']'
+    g_tocat = glob.glob(os.path.join(npx_directory,(run_file_base + '_g' + g_range)))
+    glist = ''.join((x[-1]+'-') for x in g_tocat)[:-1] # g inds separated by dashes, minus the last dash
+
+    print('Concatenating g indices ' + glist)
+    
     # loop over all probes to build json files of input parameters
     # initalize lists for input and output json files
     catGT_input_json = []
@@ -256,6 +269,7 @@ for spec in run_specs:
     module_input_json = []
     module_output_json = []
     session_id = []
+    catgt_output_dir = []
     data_directory = []
     
     # first loop over probes creates json files containing parameters for
@@ -265,8 +279,8 @@ for spec in run_specs:
             
         #create CatGT command for this probe
         print('Creating json file for CatGT on probe: ' + prb)
-        catGT_input_json.append(os.path.join(json_directory, spec[0] + prb + '_CatGT' + '-input.json'))
-        catGT_output_json.append(os.path.join(json_directory, spec[0] + prb + '_CatGT' + '-output.json'))
+        catGT_input_json.append(os.path.join(json_directory, spec[0] + '_g' + glist + '_prb' + prb + '_CatGT' + '-input.json'))
+        catGT_output_json.append(os.path.join(json_directory, spec[0] + '_g' + glist + '_prb' + prb + '_CatGT' + '-output.json'))
         
         # build extract string for SYNC channel for this probe
         sync_extract = '-SY=' + prb +',-1,6,500'
@@ -300,6 +314,7 @@ for spec in run_specs:
                                        input_meta_path = input_meta_fullpath,
                                        catGT_run_name = spec[0],
                                        gate_string = spec[1],
+                                       gate_list_string = glist,
                                        trigger_string = trigger_str,
                                        probe_string = prb,
                                        catGT_stream_string = catGT_stream_string,
@@ -329,22 +344,44 @@ for spec in run_specs:
             gfix_edits = np.zeros(len(prb_list), dtype='float64' )
         
         #create json files for the other modules
-        session_id.append(spec[0] + '_imec' + prb)
+        session_id.append(spec[0] + '_g' + glist + '_imec' + prb)
         
         module_input_json.append(os.path.join(json_directory, session_id[i] + '-input.json'))
         
         
         # location of the binary created by CatGT, using -out_prb_fld
-        #same run_str as above because catgt outputs concatenated files under 
-        # the first gate index
-        #run_str = spec[0] + '_g' + spec[1]
+        # use glist for run string here: included g indices separated by dashes 
+        run_str = spec[0] + '_g' + glist
         run_folder = 'catgt_' + run_str
         prb_folder = run_str + '_imec' + prb
+        catgt_output_dir = os.path.join(catGT_dest, run_folder)
         data_directory.append(os.path.join(catGT_dest, run_folder, prb_folder))
         fileName = run_str + '_tcat.imec' + prb + '.ap.bin'
         continuous_file = os.path.join(data_directory[i], fileName)
  
         outputName = 'imec' + prb + '_ks2'
+    
+        # recursively rename files in the catgt output dir to match the gate list,
+        #      if more than 1 gate was concatenated
+        # first get files in the renamed directory matching the first g index
+        if len(glist)>len(first_gate):
+            f_to_rename = glob.glob((catgt_output_dir + '/**/*_g' + first_gate + '_*'),recursive=True)
+            print('renaming catgt output...')
+            for f in f_to_rename: 
+                splt_f = f.rsplit(('_g' + first_gate), 1)
+                new_f = ('_g' + glist).join(splt_f)
+                #new_f = f.replace(('_g' + first_gate),('_g' + glist))
+                if os.path.isdir(f):
+                    mv_cmd = "mv " + f + " " + new_f
+                    subprocess.call(mv_cmd,shell=True)
+                    subf_to_rename =  glob.glob((new_f + '/**/*_g' + first_gate + '_*'),recursive=True)
+                    for sf in subf_to_rename:
+                        splt_f = sf.rsplit(('_g' + first_gate), 1)
+                        new_f = ('_g' + glist).join(splt_f)
+                        os.rename(sf,new_f)
+                else:
+                    os.rename(f,new_f)
+                print(f"renamed {len(f_to_rename)} files or directries in catgt output dir.")
 
         # kilosort_postprocessing and noise_templates moduules alter the files
         # that are input to phy. If using these modules, keep a copy of the
@@ -370,6 +407,7 @@ for spec in run_specs:
                                        noise_template_use_rf = False,
                                        catGT_run_name = session_id[i],
                                        gate_string = spec[1],
+                                       gate_list_string = glist,
                                        probe_string = spec[3],  
                                        ks_remDup = ks_remDup,                   
                                        ks_finalSplits = 1,
@@ -419,9 +457,9 @@ for spec in run_specs:
         # from each probe -- all aligned to a reference stream.
     
         # create json files for calling TPrime
-        session_id = spec[0] + '_TPrime'
-        input_json = os.path.join(json_directory, session_id + '-input.json')
-        output_json = os.path.join(json_directory, session_id + '-output.json')
+        session_id = spec[0] #+ '_TPrime'
+        input_json = os.path.join(json_directory, spec[0] + '_g' + glist + '_prb' + prb + '_TPrime' + '-input.json') 
+        output_json = os.path.join(json_directory, spec[0] + '_g' + glist + '_prb' + prb + '_TPrime' + '-input.json')
         
         # build list of sync extractions to send to TPrime
         im_ex_list = ''
@@ -435,8 +473,11 @@ for spec in run_specs:
     	                                   continuous_file = continuous_file,
                                            spikeGLX_data = True,
                                            input_meta_path = input_meta_fullpath,
-                                           catGT_run_name = spec[0],
-    									   kilosort_output_directory=kilosort_output_dir,
+                                           catGT_run_name = session_id,
+                                            gate_string = spec[1],
+                                            gate_list_string = glist,
+                                            probe_string = spec[3],  
+    					   kilosort_output_directory=kilosort_output_dir,
                                            extracted_data_directory = catGT_dest,
                                            tPrime_im_ex_list = im_ex_list,
                                            tPrime_ni_ex_list = ni_extract_string,

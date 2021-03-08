@@ -2,7 +2,7 @@ import os, io, json, sys
 
 if sys.platform == 'linux':
     import pwd
-from helpers import SpikeGLX_utils
+from ecephys_spike_sorting.scripts.helpers import SpikeGLX_utils
 
 import numpy as np
 
@@ -28,6 +28,7 @@ def createInputJson(output_file,
                     probe_type='NP1',
                     catGT_run_name=None,
                     gate_string='0',
+                    gate_list_string='0',
                     trigger_string='0,0',
                     probe_string='0',
                     catGT_stream_string = '-ap',
@@ -255,7 +256,7 @@ def createInputJson(output_file,
                 "Th" : ks_Th,
                 "lam" : 10,
                 "AUCsplit" : 0.9,
-                "minFR" : 1/50.,
+                "minFR" : 0.01, #1/50.,
                 "momentum" : '[20 400]',
                 "sigmaMask" : 30,
                 "ThPre" : 8,
@@ -314,6 +315,7 @@ def createInputJson(output_file,
         "catGT_helper_params" : {
             "run_name" : catGT_run_name,
             "gate_string" : gate_string,
+            "gate_list_string": gate_list_string,
             "probe_string" : probe_string,
             "trigger_string": trigger_string,
             "stream_string" : catGT_stream_string,
