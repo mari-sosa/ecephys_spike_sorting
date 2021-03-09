@@ -83,28 +83,48 @@ activate virtual environment -- ecephys uses pipenv (`pip install --user pipenv`
 ```
 $ pipenv shell
 ```
-
+   * Note: to deactivate the environment, type `exit`.
 
 pip install the setup.py file to autoreload module changes
 ```
-$ pip install -e .
+(ecephys_spike_sorting) $ pip install -e .
 ```
 
 ### Option 1: Use the pipeline script 
 Edit pipeline script of choice with the parameters to run. This is not preferred because it involves hard-coding run names and such, but it's fast and easy.
 The working rig43 pipeline script as of March 2021 is `sglx_multi_run_pipeline_rig43.py`
 ```
-$ cd ~/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/scripts
+(ecephys_spike_sorting) $ cd ~/local_repos/ecephys_spike_sorting/ecephys_spike_sorting/scripts
 ```
 
 Edit the run_specs variable using your favorite text editor.  \
 Then run the pipeline:
 ```
-$ python sglx_multi_run_pipeline_rig43.py
+(ecephys_spike_sorting) $ python sglx_multi_run_pipeline_rig43.py
 ```
 
 ### Option 2: Use the wrapper -- COMING SOON.
 
+_____________________
+## Spike sorting curation in Phy
 
+
+In a separate terminal/tmux session, cd to the post-processed kilosort output:
+```
+$ cd /opt/handeldata/rig43/preprocessed/<run_name>/catgt_<run_name>_<g-list>/<run_name>_<g-list>_imec0/imec0_ks2/
+```
+
+Activate the phy environment:
+```
+$ conda activate phy2-gitdev
+```
+   * Currently we are using the development version of [phy2](https://github.com/cortex-lab/phy)
+
+Launch phy to inspect params.py
+```
+(phy2-gitdev) $ phy template-gui params.py
+```
+
+### Curation examples:
 
 
