@@ -372,7 +372,7 @@ for spec in run_specs:
         if len(glist)>len(first_gate):
             f_to_rename = glob.glob((catgt_output_dir + '/**/*_g' + first_gate + '_*'),recursive=True)
             print('renaming catgt output...')
-            for f in f_to_rename: 
+            for f in f_to_rename:         
                 splt_f = f.rsplit(('_g' + first_gate), 1)
                 new_f = ('_g' + glist).join(splt_f)
                 #new_f = f.replace(('_g' + first_gate),('_g' + glist))
@@ -385,9 +385,10 @@ for spec in run_specs:
                         new_f = ('_g' + glist).join(splt_f)
                         os.rename(sf,new_f)
                 else:
-                    os.rename(f,new_f)
-                print(f"renamed {len(f_to_rename)} files or directries in catgt output dir.")
-
+                    if os.path.isfile(f):
+                        os.rename(f,new_f)
+            print(f"renamed {len(f_to_rename)} files or directries in catgt output dir.")
+            
         # kilosort_postprocessing and noise_templates moduules alter the files
         # that are input to phy. If using these modules, keep a copy of the
         # original phy output
